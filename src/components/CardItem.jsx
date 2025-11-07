@@ -19,12 +19,6 @@ export default function CardItem({
     handleDecrement(elt.id);
     handleSumDecrement(elt);
   };
-
-  const deleteProduct = () => {
-    handleDelete(elt.id);
-    handleSumDelete(elt);
-  };
-
   return (
     <Card style={{ width: "18rem", marginTop: "60px" }}>
       <Card.Img variant="top" src={elt.image} style={{ maxHeight: "200px" }} />
@@ -53,10 +47,6 @@ export default function CardItem({
               -
             </Button>
           </div>
-
-          <Button variant="danger" onClick={deleteProduct}>
-            Delete
-          </Button>
         </>
       </Card.Body>
     </Card>
