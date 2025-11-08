@@ -1,7 +1,8 @@
 # GoldenTouch
 
 ## 📖 Description
-A web application that allows users to browse and purchase smart accessories for iPads and other devices.
+A web application that allows users to browse and purchase smart accessories for accesories
+
 
 ## 🛠️ Technologies Used
 - React
