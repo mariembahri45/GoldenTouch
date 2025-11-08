@@ -1,38 +1,27 @@
-
 import CardItem from "./CardItem";
+
 export default function ListOfProducts({
   product,
-  handleIncrement,
-  handleDecrement,
-  handleDelete,
-  handleSumDecrement,
-  handleSumIncrement,
-  handleSumDelete,
-  sum,
 }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      <div style={{ display: "flex", justifyContent: "space-around",flexWrap:"wrap" }}>
-        {product.map((elt) => (
-          <CardItem
-            elt={elt}
-            handleIncrement={handleIncrement}
-            handleDecrement={handleDecrement}
-            handleDelete={handleDelete}
-            handleSumDecrement={handleSumDecrement}
-            handleSumIncrement={handleSumIncrement}
-            sum={sum}
-            handleSumDelete={handleSumDelete}
-          />
-        ))}
-      </div>
+    <div className="bg-white">
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900">Your Products Cart</h2> {/* Customize text */}
 
-      <div style={{ textAlign: "center", fontFamily:"intial" }}>
-        {product.length !== 0 ? (
-          <h2> Total: {sum} $ </h2>
-        ) : (
-          <h1> You have no Products</h1>
-        )}
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"> {/* Responsive grid with uniform gap */}
+          {product.length > 0 ? (
+            product.map((elt) => (
+              <CardItem
+                key={elt.id}
+                elt={elt}
+              />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-12"> {/* Full-width empty state in grid */}
+              <h1 className="text-3xl font-bold text-gray-500">You have no Products</h1>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

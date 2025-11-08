@@ -1,54 +1,30 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 
 export default function CardItem({
   elt,
-  handleIncrement,
-  handleDecrement,
-  handleDelete,
-  handleSumIncrement,
-  handleSumDecrement,
-  handleSumDelete,
 }) {
-  const increment = () => {
-    handleIncrement(elt.id);
-    handleSumIncrement(elt.price);
-  };
-  const decrement = () => {
-    handleDecrement(elt.id);
-    handleSumDecrement(elt);
-  };
+ 
+
   return (
-    <Card style={{ width: "18rem", marginTop: "60px" }}>
-      <Card.Img variant="top" src={elt.image} style={{ maxHeight: "200px" }} />
-      <Card.Body
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "15px",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "transparent"
-        }}
-      >
-        <div style={{ display: "flex", gap: "20px" }}>
-          <Card.Title> {elt.name} </Card.Title>
-          <Card.Text>{elt.price} $</Card.Text>
+    <div className="group relative bg-white rounded-md shadow-md overflow-hidden w-full"> {/* Full width to fill grid cell */}
+      <img
+        alt={elt.name}
+        src={elt.image}
+        className="aspect-square w-full object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80 transition-opacity duration-300" // Added duration for smoother hover
+      />
+      <div className="p-4 flex flex-col gap-4"> {/* Padding and vertical flex layout */}
+        <div className="flex justify-between items-start"> {/* Name/price: justify-between, items-start for alignment */}
+          <h3 className="text-sm font-semibold text-gray-900"> {/* Smaller text like example */}
+            {elt.name}
+          </h3>
+          <p className="text-sm font-medium text-gray-900 ml-2">{elt.price} $</p> {/* Inline margin for spacing */}
         </div>
 
-        <>
-          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <Button variant="success" onClick={increment}>
-              +
-            </Button>
-            <span>{elt.qte}</span>
-            <Button variant="primary" onClick={decrement}>
-              -
-            </Button>
-          </div>
-        </>
-      </Card.Body>
-    </Card>
+        <div className="flex justify-center gap-3 items-center"> {/* Centered quantity row */}
+
+        </div>
+
+      </div>
+    </div>
   );
 }
