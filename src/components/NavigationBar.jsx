@@ -1,18 +1,31 @@
 'use client'
 
-import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { MagnifyingGlassIcon, ShoppingBagIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 
 const navigation = {
   pages: [
     { name: 'Home', href: '/' },
-    { name: 'Products', href: '/products' },
   ],
 }
 
+// Defines menu items for the Products dropdown. It is used to display the categories of the products.
+const categories = [
+  { name: 'All Products', href: '/products', category: 'all' },
+  { name: 'Bracelets', href: '/products?category=bracelets', category: 'bracelets' },
+  { name: 'Earrings', href: '/products?category=earrings', category: 'earrings' },
+  { name: 'Necklaces', href: '/products?category=necklaces', category: 'necklaces' },
+  { name: 'Rings', href: '/products?category=rings', category: 'rings' },
+]
+
 export default function NavigationBar() {
+  const [isProductsHovered, setIsProductsHovered] = useState(false) // State to handle the hover effect on the Products dropdown
+
   return (
     <div className="bg-white">
       <header className="relative bg-white">
+    
         {/* Promo banner */}
         <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
           Get free delivery on orders over $100
@@ -24,28 +37,64 @@ export default function NavigationBar() {
             <div className="flex h-16 items-center">
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0">
-                <a href="#">
+                <Link to="/"> 
                   <span className="sr-only">Your Company</span>
                   <img
                     alt=""
                     src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
                     className="h-8 w-auto"
                   />
-                </a>
+                </Link> 
               </div>
 
               {/* Desktop page links */}
               <div className="hidden lg:ml-8 lg:flex lg:self-stretch">
                 <div className="flex h-full space-x-8">
                   {navigation.pages.map((page) => (
-                    <a
+                    <Link
                       key={page.name}
-                      href={page.href}
+                      to={page.href}
                       className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
                     >
                       {page.name}
-                    </a>
+                    </Link>
                   ))}
+                  
+                  {/* Products dropdown */}
+                  <div
+                    className="relative h-full"
+                    onMouseEnter={() => setIsProductsHovered(true)}
+                    onMouseLeave={() => setIsProductsHovered(false)}
+                  >
+                    <div className="flex h-full items-center text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer">
+                      Products
+                      <ChevronDownIcon
+                        className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                          isProductsHovered ? 'rotate-180' : ''
+                        }`}
+                        aria-hidden="true"
+                      />
+                    </div>
+                    
+                    {/* Dropdown menu */}
+                    <div
+                      className={`absolute left-0 top-full z-10 w-48 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out ${
+                        isProductsHovered
+                          ? 'opacity-100 visible translate-y-0 pointer-events-auto'
+                          : 'opacity-0 invisible -translate-y-2 pointer-events-none'
+                      }`}
+                    >
+                      {categories.map((item) => (
+                        <Link
+                          key={item.name}
+                          to={item.href}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -90,6 +139,8 @@ export default function NavigationBar() {
                   </a>
                 </div>
               </div>
+
+             
             </div>
           </div>
         </nav>

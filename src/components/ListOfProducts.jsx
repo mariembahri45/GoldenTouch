@@ -10,9 +10,9 @@ export default function ListOfProducts({
 
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"> {/* Responsive grid with uniform gap */}
           {product.length > 0 ? (
-            product.map((elt) => (
+            product.map((elt, index) => (
               <CardItem
-                key={elt.id}
+                key={`${elt.id}-${index}-${elt.image}`} // Create Unique key for each product. It ensures each item has a distinct key even when IDs repeat
                 elt={elt}
               />
             ))
