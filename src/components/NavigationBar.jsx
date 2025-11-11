@@ -1,18 +1,11 @@
 'use client'
 
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { MagnifyingGlassIcon, ShoppingBagIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
 
-const navigation = {
-  pages: [
-    { name: 'Home', href: '/' },
-  ],
-}
-
-// Defines menu items for the Products dropdown. It is used to display the categories of the products.
 const categories = [
-  { name: 'All Products', href: '/products', category: 'all' },
+  { name: 'All', href: '/products?category=all', category: 'all' },
   { name: 'Bracelets', href: '/products?category=bracelets', category: 'bracelets' },
   { name: 'Earrings', href: '/products?category=earrings', category: 'earrings' },
   { name: 'Necklaces', href: '/products?category=necklaces', category: 'necklaces' },
@@ -20,127 +13,136 @@ const categories = [
 ]
 
 export default function NavigationBar() {
-  const [isProductsHovered, setIsProductsHovered] = useState(false) // State to handle the hover effect on the Products dropdown
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [activeCategory, setActiveCategory] = useState('all')
+
+  // Extract category from URL
+  useEffect(() => {
+    if (location.pathname === '/products') {
+      const params = new URLSearchParams(location.search)
+      const category = params.get('category') || 'all'
+      setActiveCategory(category)
+    } else {
+      setActiveCategory('all')
+    }
+  }, [location.search, location.pathname])
+
+  const handleCategoryClick = (category) => {
+    setActiveCategory(category)
+    navigate(`/products?category=${category}`)
+  }
 
   return (
-    <div className="bg-white">
-      <header className="relative bg-white">
-    
-        {/* Promo banner */}
-        <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get free delivery on orders over $100
-        </p>
+    <div className="bg-gradient-to-b from-[#FFF8E7] to-white">
+      <header className="relative">
+        {/* Elegant promo banner */}
+        <div style={{ background: 'linear-gradient(to right, #B8941F, #D4AF37, #B8941F)' }}>
+          <p className="flex h-10 items-center justify-center px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
+            ✨ Free delivery on orders over $100 ✨
+          </p>
+        </div>
 
         {/* Navigation */}
-        <nav aria-label="Top" className="px-4 sm:px-6 lg:px-8">
-          <div className="border-b border-gray-200">
-            <div className="flex h-16 items-center">
+        <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="border-b border-[#F5E6D3]">
+            <div className="flex h-20 items-center justify-between">
               {/* Logo */}
-              <div className="ml-4 flex lg:ml-0">
-                <Link to="/"> 
-                  <span className="sr-only">Your Company</span>
+              <div className="flex items-center">
+                <Link to="/" className="flex items-center space-x-3">
                   <img
-                    alt=""
-                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                    className="h-8 w-auto"
+                    alt="GoldenTouch Logo"
+                    src="/images/logo.png"
+                    className="h-20 w-auto transition-transform duration-300 hover:scale-105"
                   />
-                </Link> 
+                  <span className="hidden sm:block text-2xl font-serif font-bold" style={{ background: 'linear-gradient(to right, #B8941F, #A0821A)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                    GoldenTouch
+                  </span>
+                </Link>
               </div>
 
-              {/* Desktop page links */}
-              <div className="hidden lg:ml-8 lg:flex lg:self-stretch">
-                <div className="flex h-full space-x-8">
-                  {navigation.pages.map((page) => (
-                    <Link
-                      key={page.name}
-                      to={page.href}
-                      className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
-                    >
-                      {page.name}
-                    </Link>
-                  ))}
-                  
-                  {/* Products dropdown */}
-                  <div
-                    className="relative h-full"
-                    onMouseEnter={() => setIsProductsHovered(true)}
-                    onMouseLeave={() => setIsProductsHovered(false)}
+              {/* Center: Category Filters */}
+              <div className="hidden lg:flex lg:items-center lg:space-x-1">
+                <Link
+                  to="/"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200 rounded-md hover:bg-[#FFF8E7]"
+                >
+                  Home
+                </Link>
+                {categories.map((item) => (
+                  <button
+                    key={item.category}
+                    onClick={() => handleCategoryClick(item.category)}
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                      activeCategory === item.category
+                        ? 'text-white shadow-md'
+                        : 'text-gray-700 hover:text-[#B8941F] hover:bg-[#FFF8E7]'
+                    }`}
+                    style={activeCategory === item.category ? { background: 'linear-gradient(to right, #D4AF37, #B8941F)' } : {}}
                   >
-                    <div className="flex h-full items-center text-sm font-medium text-gray-700 hover:text-gray-800 cursor-pointer">
-                      Products
-                      <ChevronDownIcon
-                        className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                          isProductsHovered ? 'rotate-180' : ''
-                        }`}
-                        aria-hidden="true"
-                      />
-                    </div>
-                    
-                    {/* Dropdown menu */}
-                    <div
-                      className={`absolute left-0 top-full z-10 w-48 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-200 ease-in-out ${
-                        isProductsHovered
-                          ? 'opacity-100 visible translate-y-0 pointer-events-auto'
-                          : 'opacity-0 invisible -translate-y-2 pointer-events-none'
-                      }`}
-                    >
-                      {categories.map((item) => (
-                        <Link
-                          key={item.name}
-                          to={item.href}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                    {item.name}
+                  </button>
+                ))}
               </div>
 
-              {/* Right side: Account, currency, search, cart */}
-              <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+              {/* Right side: Search, Account, Cart */}
+              <div className="flex items-center space-x-4">
+                {/* Mobile menu button for categories - will show on small screens */}
+                <div className="lg:hidden">
+                  <Link
+                    to="/products"
+                    className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-[#B8941F]"
+                  >
+                    Products
+                  </Link>
+                </div>
+
+                {/* Search */}
+                <button className="p-2 text-gray-600 hover:text-[#B8941F] transition-colors duration-200 rounded-full hover:bg-[#FFF8E7]">
+                  <span className="sr-only">Search</span>
+                  <MagnifyingGlassIcon className="h-6 w-6" />
+                </button>
+
+                {/* Account */}
+                <div className="hidden lg:flex lg:items-center lg:space-x-4">
+                  <button className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200">
                     Sign in
-                  </a>
-                  <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
-                  <a href="#" className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                  </button>
+                  <span aria-hidden="true" className="h-6 w-px bg-gray-300" />
+                  <button className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200">
                     Create account
-                  </a>
+                  </button>
                 </div>
 
-                <div className="hidden lg:ml-8 lg:flex">
-                  <a href="#" className="flex items-center text-gray-700 hover:text-gray-800">
-                    <img
-                      alt=""
-                      src="https://tailwindcss.com/plus-assets/img/flags/flag-canada.svg"
-                      className="block h-auto w-5 shrink-0"
-                    />
-                    <span className="ml-3 block text-sm font-medium">CAD</span>
-                    <span className="sr-only">, change currency</span>
-                  </a>
-                </div>
-
-                <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon className="h-6 w-6" />
-                  </a>
-                </div>
-
-                <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 flex items-center p-2">
-                    <ShoppingBagIcon
-                      className="h-6 w-6 shrink-0 text-gray-400 group-hover:text-gray-500"
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                    <span className="sr-only">items in cart, view bag</span>
-                  </a>
-                </div>
+                {/* Cart */}
+                <button className="group relative p-2 text-gray-600 hover:text-[#B8941F] transition-colors duration-200 rounded-full hover:bg-[#FFF8E7]">
+                  <ShoppingBagIcon className="h-6 w-6" />
+                  <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#D4AF37' }}>
+                    0
+                  </span>
+                  <span className="sr-only">items in cart, view bag</span>
+                </button>
               </div>
+            </div>
 
-             
+            {/* Mobile category filters - horizontal scrollable */}
+            <div className="lg:hidden pb-3 overflow-x-auto scrollbar-hide">
+              <div className="flex space-x-2 min-w-max px-2">
+                {categories.map((item) => (
+                  <button
+                    key={item.category}
+                    onClick={() => handleCategoryClick(item.category)}
+                    className={`px-4 py-2 text-xs font-medium rounded-full whitespace-nowrap transition-all duration-200 ${
+                      activeCategory === item.category
+                        ? 'text-white shadow-md'
+                        : 'text-gray-700 bg-gray-100 hover:bg-[#FFF8E7] hover:text-[#B8941F]'
+                    }`}
+                    style={activeCategory === item.category ? { background: 'linear-gradient(to right, #D4AF37, #B8941F)' } : {}}
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </nav>
