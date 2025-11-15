@@ -126,24 +126,6 @@ export default function NavigationBar() {
             </div>
 
             {/* Mobile category filters - horizontal scrollable */}
-            <div className="lg:hidden pb-3 overflow-x-auto scrollbar-hide">
-              <div className="flex space-x-2 min-w-max px-2">
-                {categories.map((item) => (
-                  <button
-                    key={item.category}
-                    onClick={() => handleCategoryClick(item.category)}
-                    className={`px-4 py-2 text-xs font-medium rounded-full whitespace-nowrap transition-all duration-200 ${
-                      activeCategory === item.category
-                        ? 'text-white shadow-md'
-                        : 'text-gray-700 bg-gray-100 hover:bg-[#FFF8E7] hover:text-[#B8941F]'
-                    }`}
-                    style={activeCategory === item.category ? { background: 'linear-gradient(to right, #D4AF37, #B8941F)' } : {}}
-                  >
-                    {item.name}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
         </nav>
       </header>
