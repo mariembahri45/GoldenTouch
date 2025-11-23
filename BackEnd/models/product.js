@@ -7,6 +7,11 @@ const productSchema = new Schema({
         required: true,
         unique: true
     },
+    category: {
+        type: String,
+        required:true,
+
+    },
     name: {
         type: String,
         required: true,

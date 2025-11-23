@@ -1,12 +1,26 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { products } from '../data/productsList'
 import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline'
-
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 function Home() {
+  const url = "http://localhost:6005/api/products";
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(url)
+      .then((res) => {
+        setProducts(res.data.products);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
   // Get featured products (first 4 unique products)
   const featuredProducts = products
-    .filter((product, index, self) => 
+    .filter((product, index, self) =>
       index === self.findIndex(p => p.id === product.id)
     )
     .slice(0, 4)

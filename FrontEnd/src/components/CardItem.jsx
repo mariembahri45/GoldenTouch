@@ -3,7 +3,7 @@ import React from "react";
 export default function CardItem({
   elt,
 }) {
- 
+
 
   return (
     <div className="group relative bg-white rounded-md shadow-md overflow-hidden w-full"> {/* Full width to fill grid cell */}
@@ -18,6 +18,7 @@ export default function CardItem({
             {elt.name}
           </h3>
           <p className="text-sm font-medium text-gray-900 ml-2">{elt.price} $</p> {/* Inline margin for spacing */}
+
         </div>
 
         <div className="flex justify-center gap-3 items-center"> {/* Centered quantity row */}

@@ -1,13 +1,4 @@
 export const  products  =[
-    {
-    id: 100,
-    name: "Perl Necklace",
-    description: "A pendant necklace made from a slice of recycled circuit board, silver plated bail and chain. Geek chic and eco-friendly.",
-    price: 35,
-    qte: 0,
-    rating: 4,
-    image: "images/necklaces/necklace1.webp"
-  },
 
   {
     id: 101,
@@ -98,87 +89,5 @@ export const  products  =[
     rating: 3,
     image: "images/earrings/2.webp"
   },
-   {
-    id: 106,
-    name: "Serena Drops",
-    description: "Like droplets of morning dew, these earrings bring a fresh, luminous feel to our signature clustered design. With pear-cut gems and cascading pearls, their organic silhouette moves beautifully with you.",
-    price: 60,
-    qte: 0,
-    brand: "ElectroGlow",
-    rating: 4,
-    image: "images/earrings/1.webp"
-  },
-  {
-    id: 107,
-    name: "Carina Hoops",
-    description: "Pearls, shimmer, and shine - these earrings have it all! Simple yet layered in luxe, these hoops offer the perfect final touch to an everyday outfit. Wear them with your hair tied back for a classic, sophisticated look.",
-    price: 24,
-    qte: 0,
-    brand: "KeyCraft Jewelry",
-    rating: 3,
-    image: "images/earrings/2.webp"
-  },
-   {
-    id: 106,
-    name: "Serena Drops",
-    description: "Like droplets of morning dew, these earrings bring a fresh, luminous feel to our signature clustered design. With pear-cut gems and cascading pearls, their organic silhouette moves beautifully with you.",
-    price: 60,
-    qte: 0,
-    brand: "ElectroGlow",
-    rating: 4,
-    image: "images/earrings/1.webp"
-  },
-  {
-    id: 107,
-    name: "Carina Hoops",
-    description: "Pearls, shimmer, and shine - these earrings have it all! Simple yet layered in luxe, these hoops offer the perfect final touch to an everyday outfit. Wear them with your hair tied back for a classic, sophisticated look.",
-    price: 24,
-    qte: 0,
-    brand: "KeyCraft Jewelry",
-    rating: 3,
-    image: "images/earrings/2.webp"
-  },
-   {
-    id: 106,
-    name: "Serena Drops",
-    description: "Like droplets of morning dew, these earrings bring a fresh, luminous feel to our signature clustered design. With pear-cut gems and cascading pearls, their organic silhouette moves beautifully with you.",
-    price: 60,
-    qte: 0,
-    brand: "ElectroGlow",
-    rating: 4,
-    image: "images/earrings/1.webp"
-  },
-  {
-    id: 107,
-    name: "Carina Hoops",
-    description: "Pearls, shimmer, and shine - these earrings have it all! Simple yet layered in luxe, these hoops offer the perfect final touch to an everyday outfit. Wear them with your hair tied back for a classic, sophisticated look.",
-    price: 24,
-    qte: 0,
-    brand: "KeyCraft Jewelry",
-    rating: 3,
-    image: "images/earrings/2.webp"
-  },
-   {
-    id: 106,
-    name: "Serena Drops",
-    description: "Like droplets of morning dew, these earrings bring a fresh, luminous feel to our signature clustered design. With pear-cut gems and cascading pearls, their organic silhouette moves beautifully with you.",
-    price: 60,
-    qte: 0,
-    brand: "ElectroGlow",
-    rating: 4,
-    image: "images/earrings/1.webp"
-  },
-  {
-    id: 107,
-    name: "Carina Hoops",
-    description: "Pearls, shimmer, and shine - these earrings have it all! Simple yet layered in luxe, these hoops offer the perfect final touch to an everyday outfit. Wear them with your hair tied back for a classic, sophisticated look.",
-    price: 24,
-    qte: 0,
-    brand: "KeyCraft Jewelry",
-    rating: 3,
-    image: "images/earrings/2.webp"
-  }
-  
+   
 ]
-
-

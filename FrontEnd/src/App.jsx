@@ -8,6 +8,7 @@ import Home from './components/Home'
 import NavigationBar from './components/NavigationBar'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
+import Products from './components/products';
 
 
 
@@ -36,7 +37,7 @@ function App() {
       <NavigationBar/>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
       </Routes>
