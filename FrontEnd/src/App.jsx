@@ -6,6 +6,8 @@ import { products } from "./data/productsList"
 import { BrowserRouter , Routes, Route, useSearchParams} from 'react-router-dom'
 import Home from './components/Home'
 import NavigationBar from './components/NavigationBar'
+import SignIn from './components/SignIn'
+import SignUp from './components/SignUp'
 
 
 
@@ -35,6 +37,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<ProductsPage />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
 

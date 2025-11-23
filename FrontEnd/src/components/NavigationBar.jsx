@@ -105,13 +105,19 @@ export default function NavigationBar() {
 
                 {/* Account */}
                 <div className="hidden lg:flex lg:items-center lg:space-x-4">
-                  <button className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200">
+                  <Link
+                    to="/signin"
+                    className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200"
+                  >
                     Sign in
-                  </button>
+                  </Link>
                   <span aria-hidden="true" className="h-6 w-px bg-gray-300" />
-                  <button className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200">
+                  <Link
+                    to="/signup"
+                    className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200"
+                  >
                     Create account
-                  </button>
+                  </Link>
                 </div>
 
                 {/* Cart */}
