@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
+import { UserIcon } from "@heroicons/react/24/outline";
+import { useCart } from "../context/CartContext";
 
 const categories = [
   { name: 'All', href: '/products?category=all', category: 'all' },
@@ -15,6 +17,7 @@ const categories = [
 export default function NavigationBar() {
   const navigate = useNavigate()
   const location = useLocation()
+   const { cart } = useCart();
   const [activeCategory, setActiveCategory] = useState('all')
 
   // Extract category from URL
@@ -99,9 +102,9 @@ export default function NavigationBar() {
 
                 {/* Search */}
                 <button className="p-2 text-gray-600 hover:text-[#B8941F] transition-colors duration-200 rounded-full hover:bg-[#FFF8E7]">
-                  <span className="sr-only">Search</span>
-                  <MagnifyingGlassIcon className="h-6 w-6" />
-                </button>
+  <span className="sr-only">Profile</span>
+  <UserIcon className="h-6 w-6" />
+</button>
 
                 {/* Account */}
                 <div className="hidden lg:flex lg:items-center lg:space-x-4">
@@ -120,14 +123,18 @@ export default function NavigationBar() {
                   </Link>
                 </div>
 
-                {/* Cart */}
-                <button className="group relative p-2 text-gray-600 hover:text-[#B8941F] transition-colors duration-200 rounded-full hover:bg-[#FFF8E7]">
-                  <ShoppingBagIcon className="h-6 w-6" />
-                  <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#D4AF37' }}>
-                    0
-                  </span>
-                  <span className="sr-only">items in cart, view bag</span>
-                </button>
+               <button
+      onClick={() => navigate("/cart")}
+      className="group relative p-2 text-gray-600 hover:text-[#B8941F] transition-colors duration-200 rounded-full hover:bg-[#FFF8E7]"
+    >
+      <ShoppingBagIcon className="h-6 w-6" />
+
+      {cart.length > 0 && (
+        <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#D4AF37' }}>
+          {cart.length}
+        </span>
+      )}
+    </button>
               </div>
             </div>
 

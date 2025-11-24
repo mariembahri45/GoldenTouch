@@ -1,30 +1,31 @@
 import React from "react";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+import { useCart } from "../context/CartContext";
 
-export default function CardItem({
-  elt,
-}) {
-
+export default function CardItem({ elt }) {
+  const { addToCart } = useCart();
 
   return (
-    <div className="group relative bg-white rounded-md shadow-md overflow-hidden w-full"> {/* Full width to fill grid cell */}
-      <img
-        alt={elt.name}
-        src={elt.image}
-        className="aspect-square w-full object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80 transition-opacity duration-300" // Added duration for smoother hover
-      />
-      <div className="p-4 flex flex-col gap-4"> {/* Padding and vertical flex layout */}
-        <div className="flex justify-between items-start"> {/* Name/price: justify-between, items-start for alignment */}
-          <h3 className="text-sm font-semibold text-gray-900"> {/* Smaller text like example */}
-            {elt.name}
-          </h3>
-          <p className="text-sm font-medium text-gray-900 ml-2">{elt.price} $</p> {/* Inline margin for spacing */}
+    <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105">
+      <div className="aspect-square overflow-hidden bg-gray-100">
+        <img
+          src={elt.image}
+          alt={elt.name}
+          className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+        />
+      </div>
 
-        </div>
+      <div className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900">{elt.name}</h3>
+        <p className="mt-2 text-sm text-gray-600 line-clamp-2">{elt.description}</p>
+        <p className="mt-4 text-lg font-bold text-[#D4AF37]">${elt.price}</p>
 
-        <div className="flex justify-center gap-3 items-center"> {/* Centered quantity row */}
-
-        </div>
-
+        <button
+          className="mt-4 w-full bg-[#D4AF37] text-white py-2 rounded-lg hover:bg-[#b8952d] transition"
+          onClick={() => addToCart(elt)}
+        >
+          🛒 Add to Cart
+        </button>
       </div>
     </div>
   );

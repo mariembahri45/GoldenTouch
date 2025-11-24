@@ -52,12 +52,6 @@ function Home() {
                 Shop Collection
                 <ArrowRightIcon className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link
-                to="/products?category=all"
-                className="text-base font-semibold leading-6 text-gray-900 hover:text-[#B8941F] transition-colors duration-200"
-              >
-                Learn more <span aria-hidden="true">→</span>
-              </Link>
             </div>
           </div>
         </div>
