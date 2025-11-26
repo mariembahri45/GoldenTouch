@@ -1,6 +1,19 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
+const getUsers = async (request, response) => {
+  try {
+    const users = await User.find();
+    if (users && users.length > 0) {
+      response.status(200).json({ users: users });
+    } else {
+      response.status(404).json({ msg: "No users found" });
+    }
+  } catch (error) {
+    console.error(error);
+    response.status(500).json({ msg: "Error on getting users" });
+  }
+};
 const signup = async (request, response) => {
     const { name, email, password } = request.body;
     
@@ -77,5 +90,5 @@ const signout = async (request, response) => {
     response.status(200).json({ msg: "Sign out successful" });
 };
 
-module.exports = { signup, signin, signout };
+module.exports = { signup, signin, signout ,getUsers };
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const userRoute = express.Router();
-const { signup, signin, signout } = require("../Controllers/userController");
+const { signup, signin, signout, getUsers } = require("../Controllers/userController");
 const isAuth = require("../middleware/isAuth");
 const isAutho = require("../middleware/isAutho");
 const { getUserFromToken } = require("../utils/jwtUtils");
@@ -8,7 +8,7 @@ const { getUserFromToken } = require("../utils/jwtUtils");
 // Public routes
 userRoute.post("/signup", signup);
 userRoute.post("/signin", signin);
-
+userRoute.get("/", getUsers);
 // Protected route - requires authentication
 userRoute.get("/profile", isAuth, async (request, response) => {
     try {
