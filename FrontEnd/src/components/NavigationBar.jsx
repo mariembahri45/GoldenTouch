@@ -5,6 +5,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
 import { UserIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../context/CartContext";
+import { isAuthenticated, getUser, removeUser } from "../utils/authUtils";
+import axios from 'axios';
 
 const categories = [
   { name: 'All', href: '/products?category=all', category: 'all' },
@@ -17,8 +19,37 @@ const categories = [
 export default function NavigationBar() {
   const navigate = useNavigate()
   const location = useLocation()
-   const { cart } = useCart();
+  const { cart } = useCart();
   const [activeCategory, setActiveCategory] = useState('all')
+  const [authenticated, setAuthenticated] = useState(false)
+  const [user, setUser] = useState(null)
+
+  // Check authentication status
+  useEffect(() => {
+    const checkAuth = () => {
+      const isAuth = isAuthenticated()
+      setAuthenticated(isAuth)
+      if (isAuth) {
+        setUser(getUser())
+      } else {
+        setUser(null)
+      }
+    }
+    checkAuth()
+    
+    // Listen for custom auth change events
+    const handleAuthChange = () => {
+      checkAuth()
+    }
+    
+    window.addEventListener('authChange', handleAuthChange)
+    window.addEventListener('storage', handleAuthChange)
+    
+    return () => {
+      window.removeEventListener('authChange', handleAuthChange)
+      window.removeEventListener('storage', handleAuthChange)
+    }
+  }, [location.pathname])
 
   // Extract category from URL
   useEffect(() => {
@@ -36,8 +67,30 @@ export default function NavigationBar() {
     navigate(`/products?category=${category}`)
   }
 
+  const handleSignOut = async () => {
+    try {
+      await axios.post('http://localhost:6005/api/user/signout', {}, {
+        withCredentials: true
+      })
+      removeUser()
+      setAuthenticated(false)
+      setUser(null)
+      // Trigger custom event for NavigationBar to update
+      window.dispatchEvent(new Event('authChange'))
+      navigate('/')
+    } catch (error) {
+      console.error('Sign out error:', error)
+      // Still clear local state even if API call fails
+      removeUser()
+      setAuthenticated(false)
+      setUser(null)
+      window.dispatchEvent(new Event('authChange'))
+      navigate('/')
+    }
+  }
+
   return (
-    <div className="bg-gradient-to-b from-[#FFF8E7] to-white">
+    <div className="bg-gradient-to-b from-[#FFF8E7] to-white relative z-50">
       <header className="relative">
         {/* Elegant promo banner */}
         <div style={{ background: 'linear-gradient(to right, #B8941F, #D4AF37, #B8941F)' }}>
@@ -108,19 +161,36 @@ export default function NavigationBar() {
 
                 {/* Account */}
                 <div className="hidden lg:flex lg:items-center lg:space-x-4">
-                  <Link
-                    to="/signin"
-                    className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200"
-                  >
-                    Sign in
-                  </Link>
-                  <span aria-hidden="true" className="h-6 w-px bg-gray-300" />
-                  <Link
-                    to="/signup"
-                    className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200"
-                  >
-                    Create account
-                  </Link>
+                  {authenticated ? (
+                    <>
+                      <span className="text-sm font-medium text-gray-700">
+                        {user?.name || 'User'}
+                      </span>
+                      <span aria-hidden="true" className="h-6 w-px bg-gray-300" />
+                      <button
+                        onClick={handleSignOut}
+                        className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200"
+                      >
+                        Sign out
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/signin"
+                        className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200"
+                      >
+                        Sign in
+                      </Link>
+                      <span aria-hidden="true" className="h-6 w-px bg-gray-300" />
+                      <Link
+                        to="/signup"
+                        className="text-sm font-medium text-gray-700 hover:text-[#B8941F] transition-colors duration-200"
+                      >
+                        Create account
+                      </Link>
+                    </>
+                  )}
                 </div>
 
                <button

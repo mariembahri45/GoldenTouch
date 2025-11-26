@@ -10,6 +10,7 @@ import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import Products from './components/products';
 import CartPage from './components/CartPage';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
@@ -20,7 +21,11 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/cart" element={<CartPage />} />
+        <Route path="/cart" element={
+          <PrivateRoute>
+            <CartPage />
+          </PrivateRoute>
+        } />
 
       </Routes>
     </BrowserRouter>

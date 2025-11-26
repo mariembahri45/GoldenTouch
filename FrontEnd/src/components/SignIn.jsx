@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { EnvelopeIcon, LockClosedIcon, EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
+import axios from 'axios'
 
 function SignIn() {
   const navigate = useNavigate()
@@ -10,6 +11,7 @@ function SignIn() {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [errors, setErrors] = useState({})
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -40,19 +42,39 @@ function SignIn() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (validateForm()) {
-      // TODO: Add authentication logic here
-      console.log('Sign in:', formData)
-      // For now, just navigate to home
-      navigate('/')
+      setLoading(true)
+      try {
+        const response = await axios.post('http://localhost:6005/api/user/signin', {
+          email: formData.email,
+          password: formData.password
+        }, {
+          withCredentials: true
+        })
+        
+        if (response.data.user) {
+          localStorage.setItem('user', JSON.stringify(response.data.user))
+          // Trigger custom event for NavigationBar to update
+          window.dispatchEvent(new Event('authChange'))
+          navigate('/')
+        }
+      } catch (error) {
+        if (error.response) {
+          setErrors({ submit: error.response.data.msg || 'Sign in failed' })
+        } else {
+          setErrors({ submit: 'Network error. Please try again.' })
+        }
+      } finally {
+        setLoading(false)
+      }
     }
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF8E7] via-white to-[#FFF8E7] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <div className="absolute inset-0 opacity-40" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.4'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }}></div>
+    <div className="min-h-screen bg-gradient-to-br from-[#FFF8E7] via-white to-[#FFF8E7] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8 relative z-0">
+      <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.4'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }}></div>
       
       <div className="relative w-full max-w-md">
         {/* Logo and Title */}
@@ -172,16 +194,21 @@ function SignIn() {
               </div>
             </div>
 
+            {errors.submit && (
+              <p className="text-sm text-red-600 text-center">{errors.submit}</p>
+            )}
+
             {/* Submit Button */}
             <div>
               <button
                 type="submit"
-                className="w-full rounded-lg px-6 py-3 text-base font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                disabled={loading}
+                className="w-full rounded-lg px-6 py-3 text-base font-semibold text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ background: 'linear-gradient(to right, #D4AF37, #B8941F)', boxShadow: '0 10px 15px -3px rgba(212, 175, 55, 0.3), 0 4px 6px -2px rgba(212, 175, 55, 0.2)' }}
-                onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(212, 175, 55, 0.4), 0 10px 10px -5px rgba(212, 175, 55, 0.2)'}
-                onMouseLeave={(e) => e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(212, 175, 55, 0.3), 0 4px 6px -2px rgba(212, 175, 55, 0.2)'}
+                onMouseEnter={(e) => !loading && (e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(212, 175, 55, 0.4), 0 10px 10px -5px rgba(212, 175, 55, 0.2)')}
+                onMouseLeave={(e) => !loading && (e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(212, 175, 55, 0.3), 0 4px 6px -2px rgba(212, 175, 55, 0.2)')}
               >
-                Sign in
+                {loading ? 'Signing in...' : 'Sign in'}
               </button>
             </div>
           </form>
