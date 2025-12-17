@@ -135,11 +135,13 @@ export default function NavigationBar() {
                   )}
                 </div>
 
-                {/* Search */}
-                <button className="p-2 text-gray-600 hover:text-[#B8941F] transition-colors duration-200 rounded-full hover:bg-[#FFF8E7]">
-  <span className="sr-only">Profile</span>
-  <UserIcon className="h-6 w-6" />
-</button>
+                {/* Profile (hidden for admin since no profile view) */}
+                {!isAdmin && (
+                  <button className="p-2 text-gray-600 hover:text-[#B8941F] transition-colors duration-200 rounded-full hover:bg-[#FFF8E7]">
+                    <span className="sr-only">Profile</span>
+                    <UserIcon className="h-6 w-6" />
+                  </button>
+                )}
 
                 {/* Account */}
                 <div className="hidden lg:flex lg:items-center lg:space-x-4">
