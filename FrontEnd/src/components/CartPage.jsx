@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
 import { TrashIcon } from "@heroicons/react/24/outline";
-
+//mariem
 export default function CartPage() {
   const {
     cart,

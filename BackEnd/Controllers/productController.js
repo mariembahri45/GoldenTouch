@@ -1,3 +1,4 @@
+//mariem
 const product = require("../models/product");
 const getProducts = async (request, response) => {
     try {

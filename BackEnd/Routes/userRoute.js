@@ -1,3 +1,5 @@
+//rania
+
 const express = require("express");
 const userRoute = express.Router();
 const { signup, signin, signout, getUsers } = require("../Controllers/userController");
@@ -8,7 +10,7 @@ const { getUserFromToken } = require("../utils/jwtUtils");
 // Public routes
 userRoute.post("/signup", signup);
 userRoute.post("/signin", signin);
-userRoute.get("/", getUsers);
+
 // Protected route - requires authentication
 userRoute.get("/profile", isAuth, async (request, response) => {
     try {
@@ -29,6 +31,6 @@ userRoute.post("/signout", signout);
 userRoute.get("/admin", isAuth, isAutho(["admin"]), (request, response) => {
     response.status(200).json({ msg: "Admin access granted" });
 });
-
+userRoute.get("/users",getUsers)
 module.exports = userRoute;
 

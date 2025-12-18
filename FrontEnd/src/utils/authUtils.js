@@ -1,7 +1,7 @@
 // Since token is stored in httpOnly cookie, we can't access it from frontend
 // We store user info in localStorage and check authentication via API calls
 // The token cookie is automatically sent with requests
-
+//ahmed
 const getUser = () => {
     const userStr = localStorage.getItem('user');
     return userStr ? JSON.parse(userStr) : null;

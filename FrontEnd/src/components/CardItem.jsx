@@ -1,15 +1,17 @@
-import React from "react";
-import { ArrowRightIcon } from "@heroicons/react/24/outline";
+//Mariem
+
+// Import the cart context to access cart-related actions
 import { useCart } from "../context/CartContext";
 
 export default function CardItem({ elt }) {
+   // Get addToCart function from CartContext
   const { addToCart } = useCart();
 
   return (
     <div className="group relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105">
       <div className="aspect-square overflow-hidden bg-gray-100">
-        <img
-          src={elt.image}
+        <img 
+          src={`/${elt.image}`} 
           alt={elt.name}
           className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
         />

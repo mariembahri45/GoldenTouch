@@ -1,11 +1,15 @@
 import { createContext, useContext, useState } from "react";
-
+//mariem
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
   const [discount, setDiscount] = useState(0);
-
+  /**
+   * Add a product to the cart
+   * - If product already exists → increase quantity
+   * - If product does not exist → add with quantity = 1
+   */
   const addToCart = (product) => {
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id);
@@ -43,7 +47,7 @@ export function CartProvider({ children }) {
   const removeFromCart = (id) => {
     setCart(prev => prev.filter(item => item.id !== id));
   };
-
+  /* Calculate subtotal (sum of price × quantity for each item)*/
   const subTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -68,7 +72,9 @@ export function CartProvider({ children }) {
     </CartContext.Provider>
   );
 }
-
+/**
+ * Custom hook to access cart context easily
+ */
 export function useCart() {
   return useContext(CartContext);
 }

@@ -1,8 +1,10 @@
-import React from 'react'
+
 import { Link } from 'react-router-dom'
 import { ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+
+//Mariem : fetching products & rania : design of the home page 
 function Home() {
   const url = "http://localhost:6005/api/products";
   const [products, setProducts] = useState([]);

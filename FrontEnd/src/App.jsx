@@ -1,9 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useMemo } from 'react'
 import './App.css'
 
-import { products } from "./data/productsList"
-import { BrowserRouter , Routes, Route, useSearchParams} from 'react-router-dom'
+
+import { BrowserRouter , Routes, Route} from 'react-router-dom'
 import Home from './components/Home'
 import NavigationBar from './components/NavigationBar'
 import SignIn from './components/SignIn'
@@ -12,7 +11,7 @@ import Products from './components/products';
 import CartPage from './components/CartPage';
 import Admin from './components/Admin';
 import PrivateRoute from './components/PrivateRoute';
-
+//Mariem & ahmed
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +20,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/products/:category" element={<Products />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/cart" element={
           <PrivateRoute>

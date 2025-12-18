@@ -1,41 +1,33 @@
-'use client'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { ShoppingBagIcon } from '@heroicons/react/24/outline'
+import { UserIcon } from "@heroicons/react/24/outline"
+import { useCart } from "../context/CartContext"
+import { useAuth } from "../context/AuthContext"   
 
-import { useState, useEffect, useMemo } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { MagnifyingGlassIcon, ShoppingBagIcon } from '@heroicons/react/24/outline'
-import { UserIcon } from "@heroicons/react/24/outline";
-import { useCart } from "../context/CartContext";
-import { useAuth } from "../context/AuthContext";
-
+//mariem and ahmed mariem: nav links , ahmed authentication behaviour
 const categories = [
-  { name: 'All', href: '/products?category=all', category: 'all' },
-  { name: 'Bracelets', href: '/products?category=bracelets', category: 'bracelets' },
-  { name: 'Earrings', href: '/products?category=earrings', category: 'earrings' },
-  { name: 'Necklaces', href: '/products?category=necklaces', category: 'necklaces' },
-  { name: 'Rings', href: '/products?category=rings', category: 'rings' },
+  { name: 'All', category: 'all' },
+  { name: 'Bracelets', category: 'bracelets' },
+  { name: 'Earrings', category: 'earrings' },
+  { name: 'Necklaces', category: 'necklaces' },
+  { name: 'Rings', category: 'rings' },
 ]
 
 export default function NavigationBar() {
+  // used to redirect user to another route using code
   const navigate = useNavigate()
-  const location = useLocation()
-  const { cart } = useCart();
-  const { user, role, isAuthenticated, signOut } = useAuth();
-  const [activeCategory, setActiveCategory] = useState('all')
+  // get cart array from CartContext (used to show cart badge count)
+  const { cart } = useCart()
 
-  // Extract category from URL
-  useEffect(() => {
-    if (location.pathname === '/products') {
-      const params = new URLSearchParams(location.search)
-      const category = params.get('category') || 'all'
-      setActiveCategory(category)
-    } else {
-      setActiveCategory('all')
-    }
-  }, [location.search, location.pathname])
+  //  category comes from URL: /products/:category
+  const { category } = useParams()
+  const activeCategory = category || 'all'
 
-  const handleCategoryClick = (category) => {
-    setActiveCategory(category)
-    navigate(`/products?category=${category}`)
+  
+  const { user, isAuthenticated, signOut, role } = useAuth()
+
+  const handleCategoryClick = (cat) => {
+    navigate(`/products/${cat}`)
   }
 
   const handleSignOut = async () => {
@@ -44,14 +36,13 @@ export default function NavigationBar() {
   }
 
   const isAdmin = role === 'admin'
-
   return (
     <div className="bg-gradient-to-b from-[#FFF8E7] to-white relative z-50">
       <header className="relative">
         {/* Elegant promo banner */}
         <div style={{ background: 'linear-gradient(to right, #B8941F, #D4AF37, #B8941F)' }}>
           <p className="flex h-10 items-center justify-center px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-            �o� Free delivery on orders over $100 �o�
+             Free delivery on orders over $100 
           </p>
         </div>
 
@@ -101,11 +92,10 @@ export default function NavigationBar() {
                     <button
                       key={item.category}
                       onClick={() => handleCategoryClick(item.category)}
-                      className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
-                        activeCategory === item.category
+                      className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${activeCategory === item.category
                           ? 'text-white shadow-md'
                           : 'text-gray-700 hover:text-[#B8941F] hover:bg-[#FFF8E7]'
-                      }`}
+                        }`}
                       style={activeCategory === item.category ? { background: 'linear-gradient(to right, #D4AF37, #B8941F)' } : {}}
                     >
                       {item.name}
@@ -177,18 +167,18 @@ export default function NavigationBar() {
                   )}
                 </div>
 
-               <button
-      onClick={() => navigate("/cart")}
-      className="group relative p-2 text-gray-600 hover:text-[#B8941F] transition-colors duration-200 rounded-full hover:bg-[#FFF8E7]"
-    >
-      <ShoppingBagIcon className="h-6 w-6" />
+                <button
+                  onClick={() => navigate("/cart")}
+                  className="group relative p-2 text-gray-600 hover:text-[#B8941F] transition-colors duration-200 rounded-full hover:bg-[#FFF8E7]"
+                >
+                  <ShoppingBagIcon className="h-6 w-6" />
 
-      {cart.length > 0 && (
-        <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#D4AF37' }}>
-          {cart.length}
-        </span>
-      )}
-    </button>
+                  {cart.length > 0 && (
+                    <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#D4AF37' }}>
+                      {cart.length}
+                    </span>
+                  )}
+                </button>
               </div>
             </div>
 
